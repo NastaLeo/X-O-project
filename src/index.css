@@ -7,8 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.board {
+.game {
   margin: 50px;
+  width:30%;
+  display: flex;
+  align-items: flex-start;
+  
 }
 
 .square {
@@ -37,17 +41,32 @@ body {
   text-align: center;
 }
 
+
 button{
   margin-top: 10px;
-  width: 90px;
-  border: none;
-  border-radius:10px;
+  width:140px;
+  background-color: rgb(221, 216, 216);
+  border: 1px solid rgb(221, 216, 216);
   outline: none;
-  background-color: aquamarine;
   cursor: pointer;
-  opacity: .7;
 }
 
-button:hover {
-  opacity: 1;
+button.start {
+  background-color: rgb(250, 252, 145);
+  border: 1px solid rgb(250, 252, 145);
+}
+
+
+.game-info {
+  margin-left: 40px;
+}
+
+ol{
+  padding-left: 0px;
+  list-style-type: none;
+}
+
+.active {
+  background-color: rgb(118, 196, 199);
+  border: 1px solid rgb(118, 196, 199);
 }
