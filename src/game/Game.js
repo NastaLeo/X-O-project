@@ -11,14 +11,26 @@ class Game extends React.Component {
                 squares:Array(9).fill(null)
             }],
             currentStep: 0,
-            xIsNext: true
+            xIsNext: true,
+            winnerResult:[],
+            winners: [
+                [0, 1, 2],
+                [3, 4, 5], 
+                [6, 7, 8], 
+                [0, 3, 6], 
+                [1, 4, 7], 
+                [2, 5, 8], 
+                [0, 4, 8],
+                [2, 4, 6]
+            ]
+
         }
 
         this.calculateWinners = this.calculateWinners.bind(this);
         this.handleClickSquare = this.handleClickSquare.bind(this);
         this.jumpTo = this.jumpTo.bind(this);
         this.startNewGame = this.startNewGame.bind(this);
-        console.log("constructor")
+        
     }
 
 
@@ -39,35 +51,46 @@ class Game extends React.Component {
                 currentStep: this.state.currentStep + 1,
                 xIsNext: !this.state.xIsNext
             });
+
+           
+            if(this.calculateWinners(squares) && !squares.every(el => el != null)){
+                                    
+                const arr = [];
+                                    
+                this.state.xIsNext ? squares.filter((el, i) => { 
+                                        if(el === "X") return arr.push(i)   
+                                     }) : 
+                                     squares.forEach((el, i) => {
+                                         if(el === "0") return arr.push(i)
+                                     });
+
                 
-            console.log(`Клик ${current.squares[i]} по квадрату номер ${i}`);
-            console.log("История ходов ", this.state.history);
-        }
+              
+                for(let i = 0; i < this.state.winners.length; i++){
+                  if(arr.filter(el =>(this.state.winners[i].includes(el))).length === 3) {
+                        const winnerCopy = this.state.winners[i];
+                        this.setState({ 
+                            winnerResult: winnerCopy
+                        });
+                    }
+                }    
+                
+            } 
+           
+        } 
     }
     
 
 
     calculateWinners(squares) {
-    
-        const winners = [
-            [0, 1, 2],
-            [3, 4, 5], 
-            [6, 7, 8], 
-            [0, 3, 6], 
-            [1, 4, 7], 
-            [2, 5, 8], 
-            [0, 4, 8],
-            [2, 4, 6]
-        ]
+          
+        for (let i = 0; i < this.state.winners.length; i++){
 
-        for (let i = 0; i < winners.length; i++){
-
-            const [a, b, c] = winners[i];
+            const [a, b, c] = this.state.winners[i];
 
             if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]){
                 return 'Game Over! The winner is ' + squares[a];
             } 
-
         } 
         
         if (squares.every(el => el != null)) {
@@ -82,8 +105,7 @@ class Game extends React.Component {
     jumpTo(move) {
         if(this.state.currentStep !== move) {
             this.setState({ currentStep: move, xIsNext: move % 2 === 0 });
-        }
-        
+        }      
     }
 
 
@@ -92,7 +114,7 @@ class Game extends React.Component {
     startNewGame() {
         let history = [...this.state.history];
         history = [{ squares: Array(9).fill(null) }];
-        this.setState({ history: history, currentStep: 0, xIsNext: true });
+        this.setState({ history: history, currentStep: 0, xIsNext: true, winnerResult: [] });
 
     }
 
@@ -116,17 +138,15 @@ class Game extends React.Component {
           );
         })
 
-        console.log('render')
-
+  
         return (
             <div className='game'>
-
-                
-
-                <div className='game-board'>
+        
+               <div className='game-board'>
                     <Board 
                         squares = {current.squares}
                         handleClick = {this.handleClickSquare}
+                        winnerCombo = {this.state.winnerResult}
                     />
                 </div>
 

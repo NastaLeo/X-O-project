@@ -4,12 +4,13 @@ import '../index.css'
 
 
 class Board extends React.Component {
-
-    renderSquare(i){
+   
+    renderSquare(i){ 
         return (
             <Square position = {i}
                 value = {this.props.squares[i]} 
                 onClick = {() => this.props.handleClick(i)}
+                winner = {this.props.winnerCombo}
             />       
         )
     };
