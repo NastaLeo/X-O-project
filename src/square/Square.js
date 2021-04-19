@@ -14,18 +14,7 @@ class Square extends React.Component {
     //     return this.props.value !== nextProps.value
     // }
 
-    //componentDidUpdate(prevProps) {
-    //     console.log(this.props.position)
-    //     const positionsCopy = [...this.state.positions];
-   
-    //     if (this.props.position !== prevProps.position) {
-    //     this.setState({
-    //         positions: positionsCopy.push(this.props.position)
-    //     })
-    //     
-    //}
-
-  
+     
     render(){
 
         const { position, value, winner } = this.props;
